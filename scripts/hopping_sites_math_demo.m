@@ -14,7 +14,7 @@
 % You will need to access the networktools package
 % It can be pulled from:  https://github.com/lenafabr/networktools
 
-% Edit this top point to where you networktools package is located
+% Edit this to point to where you networktools package is located
 addpath('~/proj/networktools')
 
 %% parameters saved in structure
@@ -36,7 +36,11 @@ nsourcelist = linspace(1,81,smax);
 % total size of the network (number of mitochondrial units, eg: representing 0.5um-long chunks of mitochondria)
 % Must be an integer. Don't change it for now unless you want to supply your own
 % cluster size distributions.
-param.N = 250; 
+param.N = 250;
+
+% whether or not to use saturating concentrations. Warning: the result is 
+% much less interesting with saturation turned off.
+param.saturate = true;
 
 %% To set the connectivity of the network, we did a simulation sweep over two parameters:
 % The two parameters C1, C2 describe the balance of fusion:fission for
@@ -51,7 +55,7 @@ param.N = 250;
 % based on the steady state reached in simulations
 
 % load the simulation data
-load('barnhart_demo.mat')
+load('../simulation_data/c1c2_sweep_data.mat')
 % get the distribution of cluster sizes for each C1, C2 used in the
 % simulations
 meanclustersizearr = sum(mean(meanclustdistrib(:,:,:,:),4) .* reshape((1:param.N).^2, [1 1 param.N]), 3)/param.N^2;
